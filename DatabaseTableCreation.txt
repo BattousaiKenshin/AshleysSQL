@@ -1,0 +1,51 @@
+drop table if exists person;
+drop table if exists events;
+drop table if exists users;
+drop table if exists authenticationTokens;
+
+create table person 
+(
+	personId INTEGER not null primary key AUTOINCREMENT,
+	userName varchar(255),
+	firstName varchar(255) not null,
+	lastName varchar(255) not null,
+	gender char(1) not null,
+	fatherId INTEGER,
+	motherID INTEGER,
+	spouseId INTEGER,
+	FOREIGN KEY(userName) REFERENCES users(userName); 
+);
+
+create table events 
+(
+	eventId INTEGER not null PRIMARY KEY AUTOINCREMENT,
+	userName varChar(255) not null,
+	personID INTEGER not null, 
+	latitude INTEGER, 
+	longitude INTEGER,
+	country varChar(255),
+	city varChar(255),
+	eventType varChar(255),
+	eventYear INTEGER,
+	FOREIGN KEY(personID) REFERENCES person(personId),
+	FOREIGN KEY(userName) REFERENCES users(userName)
+);
+
+create table users 
+(
+	userName varChar(255) not null PRIMARY KEY,
+	userPassword varChar(255) not null,
+	userEmail varChar(255) not null,
+	userFirstName varChar(255) not null,
+	userLastName varChar(255) not null,
+	userGender char(1) not null,
+	userId INTEGER not null,
+	FOREIGN KEY(userId) REFERENCES person(personId) 
+);
+
+create table authenticationTokens 
+(
+	authenticationToken INTEGER PRIMARY KEY AUTOINCREMENT, 
+	userId INTEGER not null, 
+	FOREIGN KEY(userId) REFERENCES users(userID) 
+);
